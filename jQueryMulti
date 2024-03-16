@@ -1,0 +1,30 @@
+Qualtrics.SurveyEngine.addOnload(function() {
+  // Get all the input elements within the question container
+  var $inputs = jQuery("#" + this.questionId + " input[type='checkbox']");
+
+  // Add event listener to handle keyboard navigation
+  $inputs.keydown(function(e) {
+    var currentIndex = $inputs.index(this);
+    var nextIndex;
+
+    // Check if the pressed key is the down arrow key
+    if (e.keyCode === 40) { // 40 is the keycode for down arrow
+      e.preventDefault(); // Prevent default scrolling behavior
+
+      // Calculate the index of the next option
+      nextIndex = currentIndex + 1;
+
+      // If the next index exceeds the number of options, loop back to the first option
+      if (nextIndex >= $inputs.length) {
+        nextIndex = 0;
+      }
+
+      // Focus on the next option
+      $inputs[nextIndex].focus();
+    } else if (e.keyCode === 38) { // Handle up arrow key
+      e.preventDefault();
+      var prevIndex = (currentIndex - 1 + $inputs.length) % $inputs.length;
+      $inputs[prevIndex].focus();
+    }
+  });
+});
